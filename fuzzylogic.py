@@ -36,3 +36,7 @@ def fuzzy_combine(functions, values):
 
     if len(functions) == 3:
         return list(map(functions[0], fuzzy_combine(functions[1], values), fuzzy_combine(functions[2], values)))
+
+
+def fuzzy_imply(grade, rule, values):
+    return [min(grade, rule(value)) for value in values]
