@@ -1,6 +1,3 @@
-import numpy as np
-
-
 def fuzzy_trapezoid(a, b, c, d, x):
     if a < x < b:
         return (x - a) / (b - a)
@@ -38,5 +35,13 @@ def fuzzy_combine(functions, values):
         return list(map(functions[0], fuzzy_combine(functions[1], values), fuzzy_combine(functions[2], values)))
 
 
-def fuzzy_imply(grade, rule, values):
+def fuzzy_imply_mamdani(grade, rule, values):
     return [min(grade, rule(value)) for value in values]
+
+
+def fuzzy_defuzzify_cog(values, grades):
+    dx = values[1] - values[0]
+    area = sum([grades[i] * dx for i in range(len(values))])
+    x = sum([values[i] * grades[i] * dx for i in range(len(values))])
+    y = sum([grades[i] * grades[i] * dx for i in range(len(values))])
+    return [x / area, 0.5 * (y / area)]
